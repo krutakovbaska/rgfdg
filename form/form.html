@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Форма заявки</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f2f2f2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background: #fff;
+            padding: 25px;
+            border-radius: 10px;
+            width: 300px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 15px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #218838;
+        }
+
+        #message {
+            margin-top: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Залишити заявку</h2>
+
+    <form id="contactForm">
+        <input type="text" name="name" placeholder="Ваше ім’я" required>
+        <input type="tel" name="phone" placeholder="+380XXXXXXXXX" required>
+        <button type="submit">Відправити</button>
+    </form>
+
+    <div id="message"></div>
+</div>
+
+<script>
+const scriptURL = "https://script.google.com/macros/s/AKfycbweANSiYBQJxkvncD65v3HVghq-XtzkJ0TLN5dEd-PG0j0nDUSg8tX8xpw6-OB5k3hs/exec"; 
+const form = document.getElementById("contactForm");
+const message = document.getElementById("message");
+
+form.addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    message.innerHTML = "Відправка...";
+
+    const formData = new FormData(form);
+
+    fetch(scriptURL, {
+        method: "POST",
+        body: formData,
+        mode: "no-cors"
+    })
+    .then(() => {
+        message.innerHTML = "✅ Дані відправлено!";
+        form.reset();
+    })
+    .catch(() => {
+        message.innerHTML = "❌ Помилка при відправці";
+    });
+});
+</script>
+
+</body>
+</html>
